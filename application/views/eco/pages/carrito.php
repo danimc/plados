@@ -14,10 +14,12 @@ $total = 0;
     </div>    
 </section>
 
+
 	<div class="page-content ">
 		<div class="row">
 			<div class="ibox col-md-8">
     			<div class="ibox-body">
+    			<? if($carrito != 0){?>
     				<div class="table">
     					<table class="table table-bordered">
     						<thead>
@@ -29,9 +31,7 @@ $total = 0;
     							<th>SUBTOTAL</th>
     						</thead>
     						<tbody>
-    					<?
-                        if (isset($carrito)) 
-                        {   					
+    					<?    					
     					foreach ($carrito as $key) {
     						$subtotal = $key['cantidad'] * $key['precio'];
     						$cantProductos = $cantProductos + $key['cantidad'];
@@ -47,7 +47,6 @@ $total = 0;
 
     							<?}
     							$total = ($sub * 1.16);
-                            }
     							?>
     						</tbody>
 
@@ -56,6 +55,7 @@ $total = 0;
 
     					</table>
     				</div>
+    				<?}?>
     			</div>
     		</div>
 
@@ -83,8 +83,10 @@ $total = 0;
     						<td align="center">$ <b><?=number_format($total,'2',',',' ')?></b></td>
     					</tr>
     				</table>
-    			</div>
-    			
+    				<div class="col-md-10" style="padding-top: 20px;">
+    					<a href="<?=base_url()?>index.php/plados/checkout" class="btn btn-sm btn-block btn-success"> Continuar Y Pagar </a>
+    				</div>
+    			</div>    			
     		</div>   	 
 		</div>
     </div>

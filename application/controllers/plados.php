@@ -103,10 +103,12 @@ class Plados extends CI_Controller {
 	{
 		if (isset($_SESSION['cart'])) {
 			$datos['carrito'] = $_SESSION['cart'];
+
 		}
 		else{
-		$datos['carrito'] = null;
+			$datos['carrito'] = NULL;
 		}
+		
 
 
 		$this->load->view('_encabezado1');
@@ -115,6 +117,24 @@ class Plados extends CI_Controller {
 		$this->load->view('eco/pages/carrito', $datos);
 		$this->load->view('eco/_footer');
 
+
+	}
+
+	function checkout()
+	{
+		if (isset($_SESSION['cart'])) {
+			$datos['carrito'] = $_SESSION['cart'];
+
+		}
+		else{
+			$datos['carrito'] = NULL;
+		}
+
+		$this->load->view('_encabezado1');
+		//$this->load->view('_menuLateral1');
+		$this->load->view('eco/_menu');
+		$this->load->view('eco/pages/checkout', $datos);
+		$this->load->view('eco/_footer');
 
 	}
 

@@ -1,4 +1,4 @@
- <body>
+ <body onload="initialize()">
  <section class="menu1" id="menu-34" data-rv-view="317">
 
     <nav class="navbar navbar-dropdown navbar-fixed-top">
