@@ -90,6 +90,11 @@ class Plados extends CI_Controller {
 		$this->load->view('eco/_footer');
 	}
 
+	function pagar()
+	{
+		$this->load->library('Stripe');
+	}
+
 	function menu(){
 		if($this->session->userdata("logged_in")){
 			redirect("home");
@@ -122,13 +127,46 @@ class Plados extends CI_Controller {
 
 	function checkout()
 	{
-		if (isset($_SESSION['cart'])) {
-			$datos['carrito'] = $_SESSION['cart'];
 
+		require_once('application/libraries/stripe-php/init.php');
+
+
+        $carrito = '';
+
+		if (isset($_SESSION['cart'])) {
+			$datos['carrito'] = $_SESSION['cart'];			
+        	$carrito = $_SESSION['cart'];
 		}
 		else{
 			$datos['carrito'] = NULL;
 		}
+
+		$total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));	
+
+
+
+        \Stripe\Stripe::setApiKey('sk_test_cNEnkPQ796OFqgwfXH2oBUyq00qKunHgZw');
+
+        $session = \Stripe\Checkout\Session::create([
+          'payment_method_types' => ['card'],
+          'line_items' => [[
+            'name' => $carrito[0]['descripcion'],
+            'description' => 'Comfortable cotton t-shirt',
+            'images' => ['http://plados.koberdesarrollo.com/src/img/'.$carrito[0]['foto']],
+            'amount' => $total,
+            'currency' => 'mnx',
+            'quantity' => 1,
+          ]],
+          'success_url' => 'https://example.com/success',
+          'cancel_url' => base_url().'index.php/plados/checkout',
+        ]);
+
+         $stripeSession = array($session);
+         $sessId = ($stripeSession[0]['id']);
+
+         $datos['sesion'] = $sessId;
+
+
 
 		$this->load->view('_encabezado1');
 		//$this->load->view('_menuLateral1');
