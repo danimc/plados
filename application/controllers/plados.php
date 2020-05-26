@@ -151,13 +151,13 @@ class Plados extends CI_Controller {
           'payment_method_types' => ['card'],
           'line_items' => [[
             'name' => $carrito[0]['descripcion'],
-            'description' => 'Comfortable cotton t-shirt',
-            'images' => ['http://plados.koberdesarrollo.com/src/img/'.$carrito[0]['foto']],
-            'amount' => $total,
-            'currency' => 'mnx',
+            //'description' => 'Comfortable cotton t-shirt',
+            //'images' => ['http://plados.koberdesarrollo.com/src/img/'.$carrito[0]['foto']],
+            'amount' => $total*100,
+            'currency' => 'mxn',
             'quantity' => 1,
           ]],
-          'success_url' => 'https://example.com/success',
+          'success_url' => base_url().'index.php/plados/success?session_id={CHECKOUT_SESSION_ID}',
           'cancel_url' => base_url().'index.php/plados/checkout',
         ]);
 

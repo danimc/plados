@@ -1,7 +1,7 @@
 <?
-$cantProductos = 0;
+$cantProductos = sizeof($carrito);
 $sub = 0; //die(var_dump($carrito)); 
-$total = 0;
+$total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
 ?>
 <section class="mbr-section content3 mbr-section__container mbr-after-navbar" id="content3-37" data-rv-view="319" style="background-color: rgb(255, 255, 255); padding-top: 120px; padding-bottom: 0px;">
     <div class="container">
