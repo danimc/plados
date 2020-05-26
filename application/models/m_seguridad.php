@@ -12,16 +12,16 @@ class m_seguridad extends CI_Model {
 
 	function acceso_sistema()
     {
-		$usuario = $this->session->userdata("codigo");
+		$usuario = $this->session->userdata("id");
 		
 		$this->db->where("usuario",$usuario);
-		$this->db->where("sistema",1);
+		$this->db->where("sistema",2);
 		return $this->db->get("accesos_sistemas")->num_rows();    
     }
 	
 	function acceso_modulo($modulo)
     {
-		$usuario = $this->session->userdata("codigo");
+		$usuario = $this->session->userdata("id");
 		
 		$this->db->where("usuario",$usuario);
 		$this->db->where("modulo",$modulo);
@@ -32,13 +32,13 @@ class m_seguridad extends CI_Model {
 	
 	function limpiar_accesos_sistema($usuario)
 	{
-		$this->db->where("codigo",$usuario);
+		$this->db->where("id",$usuario);
 		$this->db->delete('accesos_sistemas',$this); 
 	}
 	
 	function limpiar_accesos_modulos($usuario)
 	{
-		$this->db->where("codigo",$usuario);
+		$this->db->where("id",$usuario);
 		$this->db->delete('accesos_modulos',$this); 
 	}
 	
@@ -67,7 +67,7 @@ class m_seguridad extends CI_Model {
 		$this->controlador = $controlador;
 		$this->funcion = $funcion;
 		$this->objeto = $objeto;
-		$this->usuario = $this->session->userdata("codigo");
+		$this->usuario = $this->session->userdata("id");
 		$this->fecha = date("Y-m-d");
 		$this->hora = date("H:i:s");
 		

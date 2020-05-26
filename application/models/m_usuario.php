@@ -29,41 +29,13 @@ class m_usuario extends CI_Model {
          return $this->db->query($qry)->result();
     }
 
-    function obt_usuario($codigo) 
+  function obt_usuario($codigo) 
     {
-    	$usr = $codigo;
-
-    	$qry = "SELECT 
-                codigo
-                ,usuario
-                ,nombre as nombres
-                ,apellido
-                , CONCAT(nombre, ' ', apellido) as nombre
-                ,dependencias.id_dependencia as depId
-                , dependencias.abreviatura as dependencia
-                , dependencias.nombre_dependencia as nom_dependencia
-                , foto
-                , usuario.rol as id_rol
-                , rol.rol
-                , p.puesto
-                , e.situacion
-                , estatus
-                , extension
-                , correo
-                , password
-                FROM crm.usuario
-                INNER JOIN dependencias
-                INNER JOIN crm.puesto_usr p
-                INNER JOIN situacion_usuarios e
-                INNER JOIN rol
-                WHERE usuario.dependencia = dependencias.id_dependencia
-                AND usuario.puesto = p.id
-                AND usuario.estatus = e.id
-                AND rol.id_rol = usuario.rol
-                AND codigo = '$usr'";
-    	
-    	return $this->db->query($qry)->row();
+        $this->db->where('id', $codigo);
+        
+        return $this->db->get('tb_usuarios')->row();
     }
+
 
         function obt_usuarios_like()
     {

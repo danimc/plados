@@ -15,7 +15,7 @@ class Plados extends CI_Controller {
 
 	public function index()
 	{
-		$this->verifica_logeado();
+		//$this->verifica_logeado();
 		$this->load->view('eco/_head');
 		$this->load->view('eco/_menu');
 		$this->load->view('eco/_inicio');
