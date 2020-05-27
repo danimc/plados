@@ -1,5 +1,6 @@
 <?
-	$color = $this->m_plados->color($producto->idColor);
+    $color = $this->m_plados->color($producto->idColor);
+    $carrusel = sizeof($galeria);
 ?>
 
 <div class="content-wrapper">
@@ -12,16 +13,22 @@
                             <div class="carousel slide" id="carousel_1" data-ride="carousel">
                                 <ol class="carousel-indicators" style="top:1.25rem;bottom:auto;">
                                     <li class="active" data-target="#carousel_1" data-slide-to="0"></li>
-                                    <li data-target="#carousel_1" data-slide-to="1"></li>
-                                    <li data-target="#carousel_1" data-slide-to="2"></li>
+                                    <? for($i = 1; $i <= $carrusel; $i++)
+                                        {?>
+                                             <li data-target="#carousel_<?=$i?>" data-slide-to="<?=$i?>"></li>
+                                        <?}?>
                                 </ol>
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <img class="card-img" src="<?=base_url()?>src/img/<?=$producto->foto?>" alt="image" />
                                     </div>
-                                    <!--  <div class="carousel-item">
-                                            <img class="card-img" src="assets/img/blog/12.jpg" alt="image" />
+                                    <? foreach($galeria as $g) 
+                                    {?>
+                                        <div class="carousel-item">
+                                            <img class="card-img" src="<?=base_url()?>src/img/productos/<?=$g->ruta?>" alt="image" />
                                         </div>
+                                    <?}?>
+                                    <!--  
                                         <div class="carousel-item">
                                             <img class="card-img" src="assets/img/blog/15.jpg" alt="image" />
                                         </div>-->
@@ -78,7 +85,7 @@
                                     <label class="col-sm-12 col-form-label"><b>Galeria / Carrusel:</b> </label>
                                     <div class="col-sm-12">
                                         <input type="hidden" name="id" value="<?=$producto->id_catProducto?>">
-                                        <input type="file" id="galeria[]" name="galeria[]">
+                                        <input type="file" id="galeria" name="galeria[]"  multiple="multiple">
                                     </div>                                    
                                 </div>
                                 <br>

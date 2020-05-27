@@ -83,6 +83,18 @@ class m_admin extends CI_Model {
         $this->db->update('tb_cat_producto', $this);
     }
 
+    function obt_galeria($producto)
+    {
+        $this->db->where('id_producto', $producto);
+
+        return $this->db->get('tb_galeria')->result();
+    }
+
+    function subir_galeria($attach)
+    {
+        $this->db->insert('tb_galeria', $attach);
+    }
+
     function obt_categorias(){
         $this->db->order_by('nombre_tipoCat', 'ASC');
         return $this->db->get("Tb_CatTipoCategoria")->result();   

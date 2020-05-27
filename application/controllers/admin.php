@@ -49,36 +49,40 @@ class Admin extends CI_Controller {
 		$id = $this->input->post('id');
 		$modelo = $this->input->post('modelo');
 		$idColor = $this->input->post('idColor');
-
-		if($_FILES['fprincipal']['name'] != ""){
+		 if(!isset($_FILES['fprincipal'])){
 			$this->subir_foto($id, $modelo, $idColor);
 		}
+
+		if($_FILES['galeria']['name'] != ""){
+			$this->subir_adjuntos($id, $modelo, $idColor);
+		}
+		
 		echo "hecho";
 	}
 
 
 
-	function subir_adjuntos($idIncidente){
+	function subir_adjuntos($id, $modelo, $idColor){
 
-		for($i=0;$i<count($_FILES["imagen"]["name"]);$i++)
+		for($i=0;$i<count($_FILES["galeria"]["name"]);$i++)
         {
-        	if($_FILES['imagen']['name'][$i] != ""){
+        	if($_FILES['galeria']['name'][$i] != ""){
 
 			
 				$x = $i+1;
-				$origen=$_FILES["imagen"]["tmp_name"][$i];
-				$ext = explode('.',$_FILES['imagen']['name'][$i]);
+				$origen=$_FILES["galeria"]["tmp_name"][$i];
+				$ext = explode('.',$_FILES['galeria']['name'][$i]);
 				$ext = $ext[count($ext) - 1];
-				$ruta ='att_' . $idIncidente .'_' . $x .'.' . $ext; 				
-				move_uploaded_file($origen , $this->ftp_ruta . 'src/oficios/att/'. $ruta );
+				$ruta =$modelo .'_'. $idColor .'_' . $x .'.' . $ext; 				
+				move_uploaded_file($origen , $this->ftp_ruta . 'src/img/productos/'. $ruta );
 
-				$attach = array('id_ticket' 	=> $idIncidente,
-								'tipo'			=> 3,
+				$attach = array('id_producto' 	=> $id,
 								'ruta'			=> $ruta,
+								'x'				=> $x,
 								'ext'			=> $ext
 								 );
 
-				$this->m_ticket->subir_pdf($attach);
+				$this->m_admin->subir_galeria($attach);
 			}
 		}
 
@@ -123,6 +127,7 @@ class Admin extends CI_Controller {
 	{
 		$producto = $this->uri->segment(3);
 		$datos['producto'] = $this->m_admin->obt_producto($producto);
+		$datos['galeria']  = $this->m_admin->obt_galeria($producto);
 		$this->load->view('_encabezado');
 		$this->load->view('_menuLateral1');
 		$this->load->view('v_editar_producto', $datos);
