@@ -35,6 +35,54 @@ class m_admin extends CI_Model {
 		return $this->db->query($qry)->result();
     }
 
+    function obt_producto($producto)
+    {
+        $qry = '';
+
+    	$qry = "
+    	SELECT
+    	p.id_catProducto
+       ,t.producto
+	   ,l.linea
+       ,c.color
+       ,p.color as idColor
+       ,p.modelo
+       ,p.precio
+       ,p.foto
+       ,p.descripcion
+		FROM tb_cat_producto p
+		LEFT JOIN tb_cat_tipo t ON t.id_tipo = p.producto
+		LEFT JOIN tb_cat_linea l ON l.id_linea = p.linea
+        LEFT JOIN tb_cat_colores c ON c.codigo = p.color
+        WHERE id_catProducto = '$producto'";
+
+		return $this->db->query($qry)->row();
+    }
+
+    function editar_descripcion($id, $texto)
+    {
+        $this->db->set('descripcion', $texto);
+        $this->db->where('id_catProducto', $id);
+
+        $this->db->update('tb_cat_producto', $this);
+    }
+
+    function editar_precio($id, $precio)
+    {
+        $this->db->set('precio', $precio);
+        $this->db->where('id_catProducto', $id);
+
+        $this->db->update('tb_cat_producto', $this);
+    }
+
+    function subir_portada($portada, $id)
+    {
+        $this->db->set('foto', $portada);
+        $this->db->where('id_catProducto', $id);
+
+        $this->db->update('tb_cat_producto', $this);
+    }
+
     function obt_categorias(){
         $this->db->order_by('nombre_tipoCat', 'ASC');
         return $this->db->get("Tb_CatTipoCategoria")->result();   

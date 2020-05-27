@@ -27,9 +27,8 @@
                               <table class="table table-bordered table-hover dataTable no-footer dtr-inline" id="datatable" role="grid" aria-describedby="datatable_info" >
                                 <thead class="thead-default thead-lg">
                                   <tr role="row">
-                                    <th>
-                                        #id
-                                    </th>
+                                    <th>Presentación</th>
+                                    <th>#id</th>
                                     <th>
                                       Categoria
                                     </th>
@@ -56,14 +55,16 @@
                                   <? foreach ($productos as $p) 
                                    {
                                   ?>                                    
-                                    <tr class="">
+                                    <tr width="10px" align="center" class="">
+                                      <td><img src="<?=base_url()?>src/img/<?=$p->foto?>" width="100px" alt="Foto Principal"></td>
                                       <td><?=$p->id_catProducto?></td>
                                       <td><?=$p->producto?></td>
                                       <td><?=$p->linea?></td>
                                       <td><?=$p->modelo?></td>
                                       <td><?=$p->color?></td>
                                       <td>$ <?=number_format($p->precio,'2',',',' ')?></td>
-                                      <td></td>
+                                      <td> <a href="<?=base_url()?>index.php?/admin/editar_producto/<?=$p->id_catProducto?>">
+                                        <i class="fa fa-pencil"></i> </a> </td>
                                     </tr>
                                 
                                   <?
@@ -90,7 +91,7 @@
                 columnDefs: [{
                     targets: 'no-sort',
                     orderable: false
-                }]
+                }] 
             });
             var table = $('#datatable').DataTable();
             $('#key-search').on('keyup', function() {

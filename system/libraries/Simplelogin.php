@@ -3,7 +3,7 @@
 class Simplelogin
 {
 	var $CI;
-	var $user_table = 'usuario';
+	var $user_table = 'tb_usuarios';
 
 	function login($user='', $password='') {
 		
@@ -20,10 +20,10 @@ class Simplelogin
 			die(var_dump($user));
 		}
 
-		$where = "usuario ='$user' OR codigo ='$user'";
+		$where = "usuario ='$user' OR id ='$user'";
 		$this->CI->db->select("*"); 
 		$this->CI->db->where('usuario', $user);
-		$this->CI->db->or_where('codigo', $user);
+		$this->CI->db->or_where('id', $user);
 		$query = $this->CI->db->get($this->user_table);
 		
 		
