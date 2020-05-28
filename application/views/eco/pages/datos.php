@@ -176,7 +176,7 @@
          estados.find('option').remove();
 
         $(r).each(function(i, v){ // indice, valor
-            estados.append('<option value="' + v.id + '">' + v.name +  '</option>');
+            estados.append('<option value="' + v.name + '">' + v.name +  '</option>');
         })
         
       },

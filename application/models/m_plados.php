@@ -71,7 +71,7 @@ class m_plados extends CI_Model {
 		LEFT JOIN tb_cat_tipo t ON t.id_tipo = p.producto
 		LEFT JOIN tb_cat_linea l ON l.id_linea = p.linea
 		LEFT JOIN tb_cat_colores c ON c.codigo = p.color
-		WHERE id_catProducto = $id";
+		WHERE id_catProducto = '$modelo'";
 
 		return $this->db->query($qry)->row();   	
     }
@@ -79,6 +79,24 @@ class m_plados extends CI_Model {
 	function guardar_cliente($cliente)
 	{
 		$this->db->insert('tb_clientes', $cliente);
+	}
+
+	function guardar_direccion($direccion)
+	{
+		$this->db->insert('tb_direcciones',$direccion);
+	}
+
+	function obt_cliente($id)
+	{
+		$qry = '';
+
+		$qry = "
+			SELECT * FROM tb_clientes
+			INNER JOIN tb_direcciones
+			WHERE id = '$id'
+			AND id = cliente";
+
+		return $this->db->query($qry)->row();
 	}
 
 	function color($color)

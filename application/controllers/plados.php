@@ -165,11 +165,18 @@ class Plados extends CI_Controller {
 						);
 		$this->m_plados->guardar_direccion($direccion);
 
-
+		$_SESSION['idCliente'] = $idCliente;
+		
+		redirect('plados/checkout');
+		
 	}
+
+
 	function checkout()
 	{
 
+		$usuario = $this->m_plados->obt_cliente($_SESSION['idCliente']);
+		$datos['usuario'] = $usuario;
 		require_once('application/libraries/stripe-php/init.php');
 
 
@@ -182,11 +189,7 @@ class Plados extends CI_Controller {
 		else{
 			$datos['carrito'] = NULL;
 		}
-
-		$total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));	
-
-
-
+		$total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));
         \Stripe\Stripe::setApiKey('sk_test_cNEnkPQ796OFqgwfXH2oBUyq00qKunHgZw');
 
         $session = \Stripe\Checkout\Session::create([
@@ -205,7 +208,6 @@ class Plados extends CI_Controller {
 
          $stripeSession = array($session);
          $sessId = ($stripeSession[0]['id']);
-
          $datos['sesion'] = $sessId;
 
 
