@@ -8,6 +8,7 @@ class Plados extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('usuario', "", TRUE);
 		$this->load->model('m_plados', "", TRUE);
+		$this->load->model('m_admin',"",TRUE);
 
 		$this->load->library('session');
 		session_start();
@@ -81,6 +82,7 @@ class Plados extends CI_Controller {
 	function detalle_articulo()
 	{
 		$articulo = $this->uri->segment(3);
+		$datos['galeria']  = $this->m_admin->obt_galeria($articulo);
 		$datos['producto'] = $this->m_plados->obt_articulo($articulo);
 
 		$this->load->view('_encabezado1');
@@ -125,6 +127,46 @@ class Plados extends CI_Controller {
 
 	}
 
+	function datos_cliente()
+	{
+		$this->load->view('_encabezado1');
+		//$this->load->view('_menuLateral1');
+		$this->load->view('eco/_menu');
+		$this->load->view('eco/pages/datos');
+		$this->load->view('eco/_footer');
+
+	}
+
+	function guardar_datos()
+	{
+		$cliente = array(
+						'nombre' 		=> $this->input->post('nombre'),
+						'aPaterno'		=> $this->input->post('aPaterno'),
+						'aMaterno'		=> $this->input->post('aMaterno'),
+						'correo'		=> $this->input->post('correo'),
+						'celular'		=> $this->input->post('celular'),
+						'telefono'		=> $this->input->post('telefono')
+		);
+
+		$this->m_plados->guardar_cliente($cliente);
+		$idCliente = $this->db->insert_id();
+
+		$direccion = array(
+							'cliente'		=> $idCliente,
+							'calle' 		=> $this->input->post('Calle'),
+							'numExterno'	=> $this->input->post('NumExterno'),
+							'numInterno' 	=> $this->input->post('NumInterno'),
+							'edificio'		=> $this->input->post('edificio'),
+							'estado'		=> $this->input->post('estado'),
+							'cp'			=> $this->input->post('cp'),
+							'ciudad'		=> $this->input->post('ciudad'),
+							'colonia'		=> $this->input->post('colonia'),
+							'referencias'	=> $this->input->post('referencias')
+						);
+		$this->m_plados->guardar_direccion($direccion);
+
+
+	}
 	function checkout()
 	{
 

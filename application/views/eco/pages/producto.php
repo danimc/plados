@@ -1,5 +1,6 @@
 <?
-	$color = $this->m_plados->color($producto->idColor);
+    $color = $this->m_plados->color($producto->idColor);
+    $carrusel = sizeof($galeria);
 ?>
 
 
@@ -15,49 +16,55 @@
     </div>    
 </section>
 <div class="content-wrapper">
-	<div class="page-content fade-in-up">
+	<div class="page-content">
 		<div class="row">
-			<div class="ibox">
-    			<div class="ibox-body">
-    				<div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="carousel slide" id="carousel_1" data-ride="carousel">
-                                <ol class="carousel-indicators" style="top:1.25rem;bottom:auto;">
-                                    <li class="active" data-target="#carousel_1" data-slide-to="0"></li>
-                                    <li data-target="#carousel_1" data-slide-to="1"></li>
-                                    <li data-target="#carousel_1" data-slide-to="2"></li>
-                                </ol>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img class="card-img" src="<?=base_url()?>src/img/<?=$producto->foto?>" alt="image" />
-                                    </div>
-                                  <!--  <div class="carousel-item">
-                                        <img class="card-img" src="assets/img/blog/12.jpg" alt="image" />
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img class="card-img" src="assets/img/blog/15.jpg" alt="image" />
-                                    </div>-->
-                                </div>
-                            </div>
-                            <div class="card-img-overlay">
-                                <div class="overlay-panel overlay-panel-bottom overlay-panel-dark flexbox">
-                                    <div class="d-inline-flex align-items-center">
-                                        <a>
-                                            
-                                        </a>
-                                        <div>
-                                            <h5 class="m-0">
-                                                <a>Línea: <?=$producto->linea?> </a>
-                                            </h5><small>Modelo: <?=$producto->modelo?></small></div>
-                                    </div>
-                                    <div class="d-inline-flex">
-                                       
+            <div class="col-md-7">
+                <div class="ibox">
+                    <div class="ibox-body">
+                            <div class="card mb-4">
+                                <div class="carousel slide" id="carousel_1" data-ride="carousel">
+                                    <ol class="carousel-indicators" style="top:1.25rem;bottom:auto;">
+                                        <li class="active" data-target="#carousel_1" data-slide-to="0"></li>
+                                        <? for($i = 1; $i <= $carrusel; $i++)
+                                            {?>
+                                                <li data-target="#carousel_<?=$i?>" data-slide-to="<?=$i?>"></li>
+                                            <?}?>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img class="card-img" src="<?=base_url()?>src/img/<?=$producto->foto?>" alt="image" />
+                                        </div>
+                                        <? foreach($galeria as $g) 
+                                        {?>
+                                            <div class="carousel-item">
+                                                <img class="card-img" src="<?=base_url()?>src/img/productos/<?=$g->ruta?>" alt="image" />
+                                            </div>
+                                        <?}?>
                                     </div>
                                 </div>
+                                <div class="card-img-overlay">
+                                    <div class="overlay-panel overlay-panel-bottom overlay-panel-dark flexbox">
+                                        <div class="d-inline-flex align-items-center">
+                                            <a>
+                                                
+                                            </a>
+                                            <div>
+                                                <h5 class="m-0">
+                                                    <a>Línea: <?=$producto->linea?> </a>
+                                                </h5><small>Modelo: <?=$producto->modelo?></small></div>
+                                        </div>
+                                        <div class="d-inline-flex">
+                                        
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                     </div>
-                    <div  class="col-md-6">
+                </div>
+            </div>
+            <div  class="col-md-5">
+                <div class="ibox">
+                    <div class="ibox-body">
                     	<h3><b><?=$producto->producto?> <?=$producto->linea?> MODELO <?=$producto->modelo?></b></h3>
                     	<p>COLOR: <?=$producto->color?> <?=$color?></p>
                     	<h4 style="color: #00a994 "><b> $<?=number_format($producto->precio,'2',',',' ')?> </b></h4>
@@ -92,17 +99,20 @@
                     </div>
     			</div>
     		</div>
+            
+            <div class="col-md-10">
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            Descripción
+                        </div>
+                    </div>
+                    <div class="ibox-body">
+                        <?=$producto->descripcion?>
+                    </div>
+                </div>    	 
 
-    		<div class="ibox">
-    			<div class="ibox-head">
-    				<div class="ibox-title">
-    					Descripción
-    				</div>
-    			</div>
-    			<div class="ibox-body">
-    				
-    			</div>
-    		</div>    	 
+            </div>
 		</div>
     </div>
 </div>

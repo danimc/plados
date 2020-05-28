@@ -1,4 +1,4 @@
- <body onload="initialize()">
+ <body >
  <section class="menu1" id="menu-34" data-rv-view="317">
 
     <nav class="navbar navbar-dropdown navbar-fixed-top">
@@ -8,7 +8,7 @@
                 <div class="mbr-table-cell">
 
                     <div class="navbar-brand">
-                        <a href="<?=base_url()?>" class="navbar-logo"><img src="<?=base_url()?>src/eco/assets/images/logoplados-317x79.png" alt="Mobirise"></a>
+                        <a href="<?=base_url()?>" class="navbar-logo"><img src="<?=base_url()?>src/eco/assets/images/logoplados-317x79.png" alt="Plados"></a>
                         
                     </div>
 

@@ -14,7 +14,6 @@ $total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
     </div>    
 </section>
 
-
 	<div class="page-content ">
 		<div class="row">
 			<div class="ibox col-md-8">

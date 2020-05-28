@@ -7,8 +7,8 @@ $total = 0;
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h3 class="mbr-section-title display-4">Carrito de Compras</h3>
-                <p class="mbr-section-subtitle lead">Resumen de tu compra.</p>
+                <h3 class="mbr-section-title display-4">Resumen de Pedido</h3>
+                <p class="mbr-section-subtitle lead">Confirma los articulos de tu pedido.</p>
             </div>
         </div>
     </div>    
@@ -84,7 +84,7 @@ $total = 0;
     					</tr>
     				</table>
     				<div class="col-md-10" style="padding-top: 20px;">
-    					<a href="<?=base_url()?>index.php/plados/checkout" class="btn btn-sm btn-block btn-success"> Continuar Y Pagar </a>
+    					<a href="<?=base_url()?>index.php/plados/datos_cliente" class="btn btn-sm btn-block btn-success"> CONTINUAR CON DATOS DE ENVIO </a>
     				</div>
     			</div>    			
     		</div>   	 

@@ -76,24 +76,9 @@ class m_plados extends CI_Model {
 		return $this->db->query($qry)->row();   	
     }
 
-    function busqueda($criterio)
+	function guardar_cliente($cliente)
 	{
-		$qry = "";
-		
-		$qry = "SELECT 
-				id_articulo,
-				t.titulo,
-				c.capitulo,
-				s.seccion,
-				a.articulo
-				FROM 
-				mj_cat_articulo a
-				LEFT JOIN mj_cat_titulos t ON t.id = a.titulo
-				LEFT JOIN mj_cat_seccion s ON s.id_seccion = a.seccion
-				LEFT JOIN mj_cat_capitulos c ON c.id_capitulo = a.capitulo
-				WHERE MATCH (a.articulo) AGAINST ('$criterio' IN BOOLEAN MODE )";
-
-		return $this->db->query($qry)->result();	
+		$this->db->insert('tb_clientes', $cliente);
 	}
 
 	function color($color)
