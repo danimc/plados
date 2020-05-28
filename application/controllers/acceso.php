@@ -12,7 +12,7 @@ class Acceso extends CI_Controller {
 	public function index()
 	{
 		$this->verifica_logeado();
-		$this->load->view('_encabezado1');
+		$this->load->view('_head');
 		$this->load->view('_login');
 	}
 

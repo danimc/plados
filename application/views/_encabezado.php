@@ -4,14 +4,6 @@ $codigo = $this->session->userdata("id");
 $usuario = $this->m_usuario->obt_usuario($codigo);
 
 ?>
-    <!--
-    ###########################################
-    #                                         #
-    #  CARGANDO TODAS LAS LIBRERIAS CSS Y JS  #
-    #       NECESARIAS PARA EL PROYECTO       #
-    #                                         #
-    ###########################################
--->
 
 <!DOCTYPE html>
 <html lang="es">
