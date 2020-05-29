@@ -291,12 +291,25 @@ class Plados extends CI_Controller
 			}
 
 			$_SESSION['cart'] = NULL;
-			redirect('plados/checkout');
+			redirect('plados/exito/' . $idPedido);
 		}
 		else {
 			echo "ERROR, ESTE PEDIDO YA ESTA REGISTRADO";
 			$this->checkout();
 		}
+	}
+
+	function exito()
+	{
+
+		$pedido = $this->uri->segment(3);
+		$datos['pedido'] = $this->m_plados->obt_pedido($pedido);
+		
+		$this->load->view('_encabezado1');
+		//$this->load->view('_menuLateral1');
+		$this->load->view('eco/_menu');
+		$this->load->view('eco/pages/exito', $datos);
+		$this->load->view('eco/_footer');
 	}
 
 	function login()
