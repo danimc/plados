@@ -99,6 +99,23 @@ class m_plados extends CI_Model {
 		return $this->db->query($qry)->row();
 	}
 
+	function guardar_pedido($pedido)
+	{
+		$this->db->insert('tb_pedidos', $pedido);
+	}
+
+	function articulo_pedido($carrito)
+	{
+		$this->db->insert('tb_articulosPedidos', $carrito);
+	}
+
+	function comprobar_pedido($usuario)
+	{
+		$this->db->where('sesCompra', $usuario);
+
+		return $this->db->get('tb_pedidos')->num_rows();
+	}
+
 	function color($color)
 	{
 		if($color == 58){

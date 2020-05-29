@@ -105,7 +105,7 @@
                 </div>
                 <div class="ibox-body"><span id="descrip"><?=$producto->descripcion?></span></div>
     			<div class="ibox-footer">
-                    <textarea required="true" id="summernote" placeholder="Escriba aquí todos los detalles del incidente" name="descripcion" data-plugin="summernote" data-air-mode="true"></textarea>
+                    <textarea required="true" id="summernote" placeholder="Escriba aquí todos los detalles del incidente" name="descripcion" data-plugin="summernote" data-air-mode="true"><?=$producto->descripcion?></textarea>
                     <br>
                     <button id="description" onclick="guardarDescripcion();" name="description" class="btn btn-rounded btn-success"><i class="fa fa-save"></i> Guardar Descripción</button>
                 </div>    	 
