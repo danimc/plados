@@ -102,7 +102,12 @@ class m_plados extends CI_Model {
 	function guardar_pedido($pedido)
 	{
 		$this->db->insert('tb_pedidos', $pedido);
-	}
+    }
+    
+    function datos_factura($datos)
+    {
+        $this->db->insert('tb_datos_factura',$datos);
+    }
 
 	function articulo_pedido($carrito)
 	{
@@ -160,9 +165,11 @@ class m_plados extends CI_Model {
     return $texto;
 	}
 
-
-
-
+    function hora_actual(){
+        date_default_timezone_set("America/Mexico_City");
+        $hora = date("H:i:s");
+        return $hora;
+    }
 	
     function fecha_text($datetime)
     {

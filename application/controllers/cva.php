@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Plados extends CI_Controller
+class Cva extends CI_Controller
 {
 
 	public function __construct()
@@ -37,12 +37,27 @@ class Plados extends CI_Controller
 
 	function compras()
 	{
-		$datos['productos'] = $this->m_plados->obt_productos();
+	//	$datos['productos'] = $this->m_plados->obt_productos();
+	//	die(var_dump($datos));
+
+		$ch = curl_init();
+		
+				//curl_setopt($ch, CURLOPT_URL, "https://www.grupocva.com/catalogo_clientes_xml/lista_precios.xml?cliente=41280&marca=%25&grupo=%25&clave=NOTGHIA-180&codigo=%25");
+				curl_setopt($ch, CURLOPT_URL, "https://www.grupocva.com/catalogo_clientes_xml/lista_precios.xml?cliente=41280&marca=HP&grupo=%25&clave=%25&codigo=%25");
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$res = curl_exec($ch);
+				curl_close($ch);
+
+				$xml = simplexml_load_string($res);
+				$json = json_encode($xml);
+				$array = json_decode($json,TRUE);
+
+				$datos['productos']= $array['item'];
 
 		$this->load->view('_encabezado1');
 		//$this->load->view('_menuLateral1');
 		$this->load->view('eco/_menu');
-		$this->load->view('eco/pages/compras', $datos);
+		$this->load->view('eco/pages/comprascva', $datos);
 		$this->load->view('eco/_footer');
 	}
 
@@ -169,32 +184,11 @@ class Plados extends CI_Controller
 		redirect('plados/checkout');
 	}
 
-	function datos_factura()
-	{
-		$array = array(
-			'nombre'	=> $this->input->post('nombre'),
-			'rfc' 		=> 	$this->input->post('rfc'),
-			'correo'	=> $this->input->post('correo'),
-			'direccion' => $this->input->post('direccion'),
-			'cliente'	=> $_SESSION['idCliente']
-		);
-
-		$datos = array_filter($array);
-
-		if( sizeof($datos) == 5) {
-			$this->m_plados->datos_factura($datos);
-			$msg = ' Datos Guardados';
-		}
-		else{
-			$msg = "debe llenar todos los datos";
-		}
-
-		echo json_encode($msg);
-	}
-
 
 	function checkout()
 	{
+
+
 		$usuario = $this->m_plados->obt_cliente($_SESSION['idCliente']);
 		$datos['usuario'] = $usuario;
 		require_once('application/libraries/stripe-php/init.php');
@@ -301,6 +295,8 @@ class Plados extends CI_Controller
 
 				$this->m_plados->guardar_pedido($pedido);
 				$idPedido = $this->db->insert_id();
+
+
 				$x = 0;
 				foreach ($carrito as $c) {
 					$carrito[$x]['pedido'] = $idPedido;
@@ -310,7 +306,6 @@ class Plados extends CI_Controller
 			}
 
 			$_SESSION['cart'] = NULL;
-			$this->correo_cliente($idPedido);
 			redirect('plados/exito/' . $idPedido);
 		}
 		else {
@@ -332,42 +327,26 @@ class Plados extends CI_Controller
 		$this->load->view('eco/_footer');
 	}
 
-
-	function correo_cliente($pedido=12)
+	function login()
 	{
-		$horario = $this->m_plados->hora_actual();
-		$saludo = '';
+		if (!isset($_POST["user"]) || !isset($_POST["password"]))
+			redirect("/inicio/index");
 
-		if($horario <= '11:59:59'){
-			$saludo = 'Buenos días';
-		}
-		elseif ($horario <= '19:59:59') {
-			$saludo = 'Buenas tardes';
-		}
-		elseif ($horario <= '23:59:59') {
-			$saludo = 'Buenas noches';
-		}
-		
-		$datos['pedido'] = $this->m_plados->obt_pedido($pedido);;
-		$datos['saludo'] = $saludo;		
+		session_start();
 
-	  //  $this->load->view('_head');
-		$msg = $this->load->view('correos/pedido_nuevo', $datos, true);
-		
-		$this->load->library('email');
-		$this->email->from('ventas@plados.mx', 'Plados');
-		$this->email->to($datos['pedido']->correo);
-		$this->email->bcc('daniel.mora@ctings.com');
-		//$this->email->bcc('them@their-example.com');
-
-		$this->email->subject('COMPRAS PLADOS');
-		$this->email->message($msg);
-		$this->email->set_mailtype('html');
-		$this->email->send();
-
-	//	echo $this->email->print_debugger();
-
+		$_SESSION["user"] = $_POST["user"];
+		$this->usuario->validar();
 	}
 
+	function logout()
+	{
+		$this->simplelogin->logout();
+		redirect("acceso");
+	}
 
+	function verifica_logeado()
+	{
+		if ($this->session->userdata("logged_in"))
+			redirect("/Inicio");
+	}
 }

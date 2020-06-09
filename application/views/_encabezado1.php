@@ -39,7 +39,10 @@ header("Content-Type: text/html;charset=utf-8");
     <link rel="stylesheet" href="<?=base_url()?>src/eco/assets/theme/css/style.css">
     <link rel="stylesheet" href="<?=base_url()?>src/eco/assets/colorm-icons/style.css">
   <link rel="stylesheet" href="<?=base_url()?>src/eco/assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 
+
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
     <!-- THEME STYLES-->
     <link href="<?=base_url()?>src/assets/css/main.min.css" rel="stylesheet" />

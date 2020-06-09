@@ -43,8 +43,12 @@ $total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
                             </tr>
                             <tr>
                                 <th> Dirección: </th>
-                                <td> <?= $usuario->calle ?> #<?= $usuario->numInterno ?> <? if (isset($usuario->numInterno)) { ?> Int. <?= $usuario->numInterno ?> <? } ?>
-                                    <? if (isset($usuario->edificio)) { ?> Edificio <?= $usuario->edificio ?> <? } ?> </td>
+                                <td> <?= $usuario->calle ?> #<?= $usuario->numExterno ?>
+                                    <? if (isset($usuario->numInterno)) { ?> Int. <?= $usuario->numInterno ?>
+                                    <? } ?>
+                                    <? if (isset($usuario->edificio)) { ?> Edificio <?= $usuario->edificio ?>
+                                    <? } ?>
+                                </td>
                                 <th>Colonia:</th>
                                 <td> <?= $usuario->colonia ?> </td>
                                 <th>Ciudad:</th>
@@ -62,6 +66,45 @@ $total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
                         </table>
                     </div>
                 </div>
+                <div class="ibox-footer">
+                    <label><b>*Requiero Factura: </b></label>
+                    <input type="checkbox" name="factura" id="factura">
+
+                    <div id="datos" class="row">
+                        <hr>
+                        <div class="col-md-12">
+                            <form id="facturacion">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label>Nombre:</label>
+                                        <input type="text" class="form-control" required name="nombre" id="nombre" value=" <?= $usuario->nombre ?> <?= $usuario->aPaterno ?> <?= $usuario->aMaterno ?>">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>RFC:</label>
+                                        <input type="text" class="form-control required" required name="rfc" id="rfc">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>CORREO:</label>
+                                        <input type="email" class="form-control" value="<?= $usuario->correo ?>" required name="correo" id="correo">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label>DIRECCIÓN DE FACTURACIÓN:</label>
+                                        <input type="text" class="form-control" required name="direccion" id="direccion" value="">
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <button id="btnGuardar" onclick="guardarDatos();" class="btn btn-rounded btn-success"> Guardar datos y solicitar factura</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -73,46 +116,46 @@ $total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
                 <div class="ibox-body">
                     <div class="row">
                         <? if ($carrito != 0) { ?>
-                            <div class="table">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="6" style="background-color: #d6d6d6;">Detalle de Pedido</th>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th>CONCEPTO</th>
-                                            <th>COLOR</th>
-                                            <th>PRECIO UNITARIO</th>
-                                            <th>CANTIDAD</th>
-                                            <th>SUBTOTAL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?
+                        <div class="table">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" style="background-color: #d6d6d6;">Detalle de Pedido</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th>CONCEPTO</th>
+                                        <th>COLOR</th>
+                                        <th>PRECIO UNITARIO</th>
+                                        <th>CANTIDAD</th>
+                                        <th>SUBTOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?
                                         foreach ($carrito as $key) {
                                             $subtotal = $key['cantidad'] * $key['precio'];
                                             $cantProductos = $cantProductos + $key['cantidad'];
                                             $sub = $sub + $subtotal;
                                         ?>
-                                            <tr>
-                                                <td><img class="img-rounded" src="<?= base_url() ?>src/img/<?= $key['foto'] ?>" alt="image" width="80px" />
-                                                <td><?= $key['descripcion'] ?>
-                                                <td><?= $key['color'] ?></td>
-                                                <td>$ <?= number_format($key['precio'], '2', ',', ' ') ?></td>
-                                                <td align="center"><?= $key['cantidad'] ?></td>
-                                                <td>$ <?= number_format($subtotal, '2', ',', ' ') ?>
+                                    <tr>
+                                        <td><img class="img-rounded" src="<?= base_url() ?>src/img/<?= $key['foto'] ?>" alt="image" width="80px" />
+                                        <td><?= $key['descripcion'] ?>
+                                        <td><?= $key['color'] ?></td>
+                                        <td>$ <?= number_format($key['precio'], '2', ',', ' ') ?></td>
+                                        <td align="center"><?= $key['cantidad'] ?></td>
+                                        <td>$ <?= number_format($subtotal, '2', ',', ' ') ?>
 
-                                                <? }
+                                            <? }
                                             $total = ($sub * 1.16);
                                                 ?>
-                                    </tbody>
+                                </tbody>
 
 
-                                    <tr>
+                                <tr>
 
-                                </table>
-                            </div>
+                            </table>
+                        </div>
                         <? } ?>
                     </div>
                 </div>
@@ -142,21 +185,21 @@ $total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
                             <td align="center">$ <b><?= number_format($total, '2', ',', ' ') ?></b></td>
                         </tr>
                     </table>
-        
-                </div>
-                <div class="ibox-footer">
-                <div class="row">
-                    <div class="col-md-12 form-group">
-                        <div class="col-md-6">
-                            <input type="button" onclick="pay()"  class="btn btn-block btn-success " value="Pagar">
-                        </div>
-                        <div class="col-md-6">
-                           <a href="<?=base_url()?>index.php/plados/carrito" class="btn btn-block btn-danger "> Regresar </a>
-                        </div>
-                    </div>
 
                 </div>
-            </div>
+                <div class="ibox-footer">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="col-md-6">
+                                <input type="button" onclick="pay()" class="btn btn-block btn-success " value="Pagar">
+                            </div>
+                            <div class="col-md-6">
+                                <a href="<?= base_url() ?>index.php/plados/carrito" class="btn btn-block btn-danger "> Regresar </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -166,24 +209,64 @@ $total = round(number_format($carrito[0]['precio'] * 1.16, 2, '.', ''));;
 
 
 
-        <script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+    function pay() {
+
+        var stripe = Stripe('pk_test_NVhGAEKZmHWV3XJBFo4YdLCA00mxzgDIwD');
 
 
-        <script type="text/javascript">
-            function pay() {
+        stripe.redirectToCheckout({
 
-                var stripe = Stripe('pk_test_NVhGAEKZmHWV3XJBFo4YdLCA00mxzgDIwD');
+            sessionId: '<?= $sesion ?>'
+        }).then(function(result) {
+
+        });
+    }
+</script>
+
+<script>
+    function guardarDatos() {
+        form = $("#facturacion").serializeArray();
 
 
-                stripe.redirectToCheckout({
-                    // Make the id field from the Checkout Session creation API response
-                    // available to this file, so you can provide it as parameter here
-                    // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-                    sessionId: '<?= $sesion ?>'
-                }).then(function(result) {
-                    // If `redirectToCheckout` fails due to a browser or network
-                    // error, display the localized error message to your customer
-                    // using `result.error.message`.
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "<?= base_url() ?>index.php?/plados/datos_factura",
+            data: form,
+        }).done(function(respuesta) {
+            console.log(respuesta);
+            alertify
+                .alert("PLADOS",respuesta, function() {
+                    alertify.message('OK');
                 });
-            }
-        </script>
+        });
+
+    }
+</script>
+
+<script>
+    $(function() {
+        $("#datos").hide('fast');
+    });
+
+    function on() {
+        $("#datos").show('fast');
+    }
+
+    function off() {
+        $("#datos").hide('fast');
+    }
+
+    var checkbox = document.getElementById('factura');
+    checkbox.addEventListener("change", comprueba, false);
+
+    function comprueba() {
+        if (checkbox.checked) {
+            on();
+        } else {
+            off();
+        }
+    }
+</script>
