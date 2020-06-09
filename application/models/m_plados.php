@@ -76,6 +76,13 @@ class m_plados extends CI_Model {
 		return $this->db->query($qry)->row();   	
     }
 
+    function obt_productosPedidos($pedido)
+    {
+        $this->db->where('pedido', $pedido);
+
+        return $this->db->get('tb_articulosPedidos')->result();
+    }
+
 	function guardar_cliente($cliente)
 	{
 		$this->db->insert('tb_clientes', $cliente);
@@ -84,7 +91,21 @@ class m_plados extends CI_Model {
 	function guardar_direccion($direccion)
 	{
 		$this->db->insert('tb_direcciones',$direccion);
-	}
+    }
+    
+    function ingresar_factura($idPedido ,$factura)
+    {
+        $this->db->where('id', $factura);
+        $this->db->set('pedido', $idPedido);
+
+        $this->db->update('tb_datos_factura', $this);
+    }
+
+    function buscar_datosFactura($pedido)
+    {
+        $this->db->where('pedido', $pedido);
+        return $this->db->get('tb_datos_factura')->row();
+    }
 
 	function obt_cliente($id)
 	{

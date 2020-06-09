@@ -183,6 +183,7 @@ class Plados extends CI_Controller
 
 		if( sizeof($datos) == 5) {
 			$this->m_plados->datos_factura($datos);
+			$_SESSION['factura'] = $this->db->insert_id();
 			$msg = ' Datos Guardados';
 		}
 		else{
@@ -298,7 +299,6 @@ class Plados extends CI_Controller
 					'cantArticulos'	=> $cantProductos,
 					'cuenta'		=> $cuenta
 				);
-
 				$this->m_plados->guardar_pedido($pedido);
 				$idPedido = $this->db->insert_id();
 				$x = 0;
@@ -307,10 +307,16 @@ class Plados extends CI_Controller
 					$this->m_plados->articulo_pedido($carrito[$x]);
 					$x++;
 				}
+
+				//si hay datos de facturacion...
+				if(isset($_SESSION['factura'])) {
+					$this->m_plados->ingresar_factura($idPedido ,$_SESSION['factura']);
+				}
 			}
 
 			$_SESSION['cart'] = NULL;
 			$this->correo_cliente($idPedido);
+			$this->correo_ventas($idPedido);
 			redirect('plados/exito/' . $idPedido);
 		}
 		else {
@@ -333,7 +339,7 @@ class Plados extends CI_Controller
 	}
 
 
-	function correo_cliente($pedido=12)
+	function correo_cliente($pedido)
 	{
 		$horario = $this->m_plados->hora_actual();
 		$saludo = '';
@@ -348,7 +354,7 @@ class Plados extends CI_Controller
 			$saludo = 'Buenas noches';
 		}
 		
-		$datos['pedido'] = $this->m_plados->obt_pedido($pedido);;
+		$datos['pedido'] = $this->m_plados->obt_pedido($pedido);
 		$datos['saludo'] = $saludo;		
 
 	  //  $this->load->view('_head');
@@ -366,6 +372,44 @@ class Plados extends CI_Controller
 		$this->email->send();
 
 	//	echo $this->email->print_debugger();
+
+	}
+
+	function correo_ventas($pedido)
+	{
+		$horario = $this->m_plados->hora_actual();
+		$saludo = '';
+
+		if($horario <= '11:59:59'){
+			$saludo = 'Buenos días';
+		}
+		elseif ($horario <= '19:59:59') {
+			$saludo = 'Buenas tardes';
+		}
+		elseif ($horario <= '23:59:59') {
+			$saludo = 'Buenas noches';
+		}
+		
+		$datos['pedido'] 		= $this->m_plados->obt_pedido($pedido);
+		$datos['carrito']		= $this->m_plados->obt_productosPedidos($pedido);
+		$datos['factura']		= $this->m_plados->buscar_datosFactura($pedido);
+		$datos['saludo'] 		= $saludo;		
+
+	  //  $this->load->view('_head');
+		$msg = $this->load->view('correos/nueva_venta', $datos, true);
+		
+		$this->load->library('email');
+		$this->email->from('ventas@plados.mx', 'Plados');
+		$this->email->to('daniel_k310a@hotmail.com');
+		$this->email->bcc('daniel.mora@ctings.com');
+		//$this->email->bcc('them@their-example.com');
+
+		$this->email->subject('COMPRAS PLADOS');
+		$this->email->message($msg);
+		$this->email->set_mailtype('html');
+		$this->email->send();
+
+		//echo $this->email->print_debugger();
 
 	}
 

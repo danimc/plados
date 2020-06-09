@@ -27,7 +27,7 @@ $total = round(number_format($pedido->cuenta, 2, '.', ''));;
 			<tr>
 				<td colspan="3" style=" text-align: left; padding-top: 100px" align="left" width="33%">
 					<h2><b>Hola  <?= $pedido->nombre ?></b></h2>
-					<h3>Gracias por realizar tu pedido en <b> PLADOS </b>, tu numero de pedido es el <b><span style="color: red;">#<?=$pedido->id_pedido?>. </span></b> <br>En breve recibiras la confirmación de tu pago y el seguimiento al mismo</h3>
+					<h3>Gracias por realizar tu pedido en <b> PLADOS </b>, tu numero de pedido es el <b><span style="color: red;">#<?=$pedido->id_pedido?>. </span></b> En breve recibiras la confirmación de tu pago y el seguimiento al mismo</h3>
 				</td>
 			</tr>
 			<tr>
