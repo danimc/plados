@@ -108,9 +108,10 @@ class Plados extends CI_Controller
 
 	function carrito()
 	{
-		if (isset($_SESSION['cart'])) {
+		if (isset($_SESSION['cart']) ) {
+			$_SESSION['cart'] = array_merge($_SESSION['cart']);
 			$datos['carrito'] = $_SESSION['cart'];
-		} else {
+		} else {			
 			$datos['carrito'] = NULL;
 		}
 
@@ -123,12 +124,26 @@ class Plados extends CI_Controller
 		$this->load->view('eco/_footer');
 	}
 
+	function eliminar_art()
+	{
+		$articulo = $this->input->get('articulo');
+		unset($_SESSION['cart'][$articulo]);			
+		var_export($_SESSION['cart']);
+	}
+
 	function datos_cliente()
 	{
 		//$_SESSION['idCliente'] = 3; ###############SOLO PARA PRUEBAS!!!! BORRAARR
 		if (isset($_SESSION['idCliente'])) {
 			redirect('plados/checkout');
 		}
+		if (!isset($_SESSION['cart'])) {
+			redirect('plados/compras');
+		}
+		if(sizeof($_SESSION['cart']) == 0) {	
+			redirect('plados/compras');
+		}
+
 		$this->load->view('_encabezado1');
 		//$this->load->view('_menuLateral1');
 		$this->load->view('eco/_menu');
@@ -400,7 +415,7 @@ class Plados extends CI_Controller
 		
 		$this->load->library('email');
 		$this->email->from('ventas@plados.mx', 'Plados');
-		$this->email->to('daniel_k310a@hotmail.com');
+		$this->email->to('jbarron@kober.com.mx');
 		$this->email->bcc('daniel.mora@ctings.com');
 		//$this->email->bcc('them@their-example.com');
 

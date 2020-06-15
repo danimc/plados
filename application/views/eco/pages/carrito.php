@@ -29,10 +29,12 @@ $total = 0;
     							<th>PRECIO UNITARIO</th>
     							<th>CANTIDAD</th>
     							<th>SUBTOTAL</th>
+								<th></th>
     						</thead>
     						<tbody>
-    					<?    					
-    					foreach ($carrito as $key) {
+						<?
+						$x = 0; 
+		   					foreach ($carrito as $key) {
     						$subtotal = $key['cantidad'] * $key['precio'];
     						$cantProductos = $cantProductos + $key['cantidad'];
     						$sub = $sub + $subtotal; 
@@ -42,10 +44,13 @@ $total = 0;
     								<td><?=$key['descripcion']?>
     								<td><?=$key['color']?></td>
     								<td>$ <?=number_format($key['precio'],'2',',',' ')?></td>
-    								<td align="center"><?=$key['cantidad']?></td>
-    								<td>$ <?=number_format($subtotal,'2',',',' ')?>
+    								<td align="center"><?=$key['cantidad']?>  </td>
+    								<td>$ <?=number_format($subtotal,'2',',',' ')?></td>
+									<td><a href="<?=base_url()?>index.php/plados/eliminar_art?articulo=<?=$x?>"> Eliminar </a></td>
 
-    							<?}
+								<?
+								$x++;
+								}
     							$total = ($sub * 1.16);
     							?>
     						</tbody>
