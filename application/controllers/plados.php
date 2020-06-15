@@ -128,7 +128,9 @@ class Plados extends CI_Controller
 	{
 		$articulo = $this->input->get('articulo');
 		unset($_SESSION['cart'][$articulo]);			
-		var_export($_SESSION['cart']);
+		//var_export($_SESSION['cart']);		
+		redirect('plados/carrito');
+		
 	}
 
 	function datos_cliente()
